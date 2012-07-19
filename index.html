@@ -1,0 +1,112 @@
+<!doctype html>
+<html ng-app>
+<head>
+	<script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+	<script src="calculator.js"></script>
+	<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container" ng-controller="CalculatorCtrl">
+		<div class="page-header row">
+		<h1>Loanly! <small>A Loan Calculator</small></h1>
+		</div>
+		
+		<ul class="unstyled">
+			<li ng-repeat="loan in loans" class="row">
+			<h6>{{loan.name}}.</h6>
+			<form class="well form-inline">
+			
+				<button type="button" class="btn btn-danger pull-right" ng-click="remove(loan)">Remove</button>
+			<div class="row">
+			<div class="span3">
+				<label class="control-label" for="prependedInput">Loan balance:</label>
+				<div class="input-prepend">
+					<span class="add-on">$</span><input class="input-small" type="number" min="0" value="{{loan.loanBalance}}" ng-model="loan.loanBalance" id="loanBalance"/>
+				</div>
+			</div>
+			<div class="span4">
+				<label class="control-label" for="prependedInput">Repayment rate:</label>
+				<div class="input-prepend">
+					<span class="add-on">$</span><input class="input-small" type="number" min="0" value="{{loan.repaymentRate}}" ng-model="loan.repaymentRate" id="repaymentRate"/>
+				</div>
+				<span>
+					per 
+					month
+				</span>
+			</div>
+				<!--<select id="repaymentPeriod">
+					<option value="1">year</option>
+					<option value="12" selected="selected">month</option>
+					<option value="52">week</option>
+					<option value="365">day</option>
+				</select> -->
+			<div class="span3">
+				<label class="control-label" for="prependedInput">Interest rate:</label> 
+				<div class="input-append">
+					<input class="input-small" type="number" min="0" step="0.1" id="interestRate" value="{{loan.interestRate}}" ng-model="loan.interestRate"/><span class="add-on">%</span>
+				</div>
+				<span>
+					per 
+					year
+				</span>
+			</div>
+			
+			<div  class="span1">
+				<button type="button" class="btn btn-primary" ng-click="calculate(loan)"> Calculate </button>
+			</div>
+			
+			</div>
+			<hr />
+			<p>{{loan.outputText}}</p>
+			</form>
+			</li>
+		</ul>
+		
+		<form class="form-inline">
+			<div class="row">
+				<button type="button" class="btn btn-primary" ng-click="addLoan()"> {{flavourText}} </button>
+			</div>
+		</form>
+		
+		<div class="row">
+		
+			<h5>Simulate</h5>
+		<form class="form-inline well">
+			<div class="row">
+				<div class="span5">
+					<label class="control-label" for="prependedInput">Repayment amount:</label>
+					<div class="input-prepend">
+						<span class="add-on">$</span><input class="input-small" type="number" min="0" value="{{simulationRepaymentRate}}" ng-model="simulationRepaymentRate" id="simulationRepaymentRate"/>
+					</div>
+					<span>
+						per 
+						month
+					</span>
+				</div>
+				<div class="span5">
+					<span>
+						Pay off the 
+					</span>
+					
+					<select ng-model="paymentStrategy" ng-options="ps.text for ps in paymentStrategies"></select>
+					<span>
+						first.
+					</span>
+				</div>
+				<div class="span1">
+					<button type="button" class="btn btn-primary" ng-click="simulate()"> Simulate </button>
+				</div>
+				
+			</div>
+			<hr />
+			<p>{{simulationText}}</p>
+			<ul class="unstyled">
+				<li ng-repeat="loanRepaymentEvent in loanRepaymentEvents">{{loanRepaymentEvent}}</li>
+			</ul>
+		</form>
+		<!---->
+		</div>
+	</div>
+</body>
+
+</html>
